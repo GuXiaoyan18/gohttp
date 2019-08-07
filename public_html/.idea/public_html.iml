@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/grpc_php/User_info" isTestSource="false" packagePrefix="User_info\" />
+      <sourceFolder url="file://$MODULE_DIR$/grpc_php/GPBMetadata" isTestSource="false" packagePrefix="GPBMetadata\" />
+      <excludeFolder url="file://$MODULE_DIR$/grpc_php/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/grpc_php/vendor/google/protobuf" />
+      <excludeFolder url="file://$MODULE_DIR$/grpc_php/vendor/grpc/grpc" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

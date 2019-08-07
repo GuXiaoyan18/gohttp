@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<style type="text/css">
+    .divForm{
+        position: absolute;/*绝对定位*/
+        width: 500px;
+        height: 200px;
+
+        text-align: center;/*(让div中的内容居中)*/
+        top: 50%;
+        left: 45%;
+        margin-top: -200px;
+        margin-left: -150px;
+    }
+</style>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>用户登录</title>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>　
+</head>
+
+<body background="http://src.leju.com/imp/imp/deal/87/18/3/3d144c7e778ebaf259b78698a44_p24_mk24_sX0.jpg" style="background-size:100%; background-repeat: no-repeat">
+<div class="divForm">
+    <form id="myform" class="form-horizontal" style="margin-top: 5% " >
+        <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label" style="color: #f2dede">用户名</label>
+            <div class="col-sm-10" style="width: 60%">
+                <input type="text" id="inputName" name="name" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPwd" class="col-sm-2 control-label" style="color: #f2dede">密码</label>
+            <div class="col-sm-10" style="width: 60%">
+                <input type="password" id="inputPwd" name="pwd" class="form-control">
+            </div>
+        </div>
+        <div style="padding-right: 40px">
+            <button type="button" name="submit" id="login" style="width: 100px">登录</button>
+            <button type="button" onclick="window.location.href='register.html'" style="width: 100px">注册</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#login").click(function(){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "logine.php",
+            data: $("#myform").serialize(),
+            success: function (data) {
+                var status = data.Flag;
+                if (status == 1){
+                    var name = $("#inputName").val();
+                    var pwd = md5($("#inputPwd").val());
+                    location.href = "hello.html?name="+ name + "&pwd=" + pwd;
+                }
+                else {
+                    alert("用户名或密码错误");
+                }
+            },
+            error: function () {
+                alert("程序异常");
+            }
+        });
+    });
+</script>
+</body>
+</html>
