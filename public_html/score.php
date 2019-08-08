@@ -15,7 +15,7 @@ curl_setopt($ch, CURLOPT_TIMEOUT, 500);
 
 while(true){
     $count++;
-
+    sleep(5);
     $output = curl_exec($ch);
     if($output){
         curl_close($ch);
@@ -23,7 +23,7 @@ while(true){
         exit();
     }
 
-    sleep(1);
+
     if($count == $_REQUEST['time']){
         exit();
     }

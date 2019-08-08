@@ -8,42 +8,42 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
 
-<script type="text/javascript">
-    function getQueryVariable(variable)
-    {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
-        }
-        return(false);
-    }
-    function goToView() {
-        location.href = "view.html?name=" + getQueryVariable("name") + "&pwd=" + getQueryVariable("pwd");
-    }
-
-    function goToEdit() {
-        location.href = "edit.html?name=" + getQueryVariable("name") + "&pwd=" + getQueryVariable("pwd");
-    }
-
-    function logout() {
-        var name = getQueryVariable("name");
-        var pwd = getQueryVariable("pwd");
-        $.ajax({
-            type: "get",
-            url: "http://192.168.64.166:8080/logout/" + name +"/" + pwd,
-            data: "name=" + name + "&pwd=" + pwd,
-            dataType: "json",
-            // withCredentials: "true",
-            success: function (data) {
-                location.href = "index.html";
+    <script type="text/javascript">
+        function getQueryVariable(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
             }
-        });
-    }
-</script>
+            return(false);
+        }
+        function goToView() {
+            location.href = "view.html?name=" + getQueryVariable("name") + "&pwd=" + getQueryVariable("pwd");
+        }
+
+        function goToEdit() {
+            location.href = "edit.html?name=" + getQueryVariable("name") + "&pwd=" + getQueryVariable("pwd");
+        }
+
+        function logout() {
+            var name = getQueryVariable("name");
+            var pwd = getQueryVariable("pwd");
+            $.ajax({
+                type: "get",
+                url: "http://192.168.64.166:8080/logout/" + name +"/" + pwd,
+                data: "name=" + name + "&pwd=" + pwd,
+                dataType: "json",
+                // withCredentials: "true",
+                success: function (data) {
+                    location.href = "index.html";
+                }
+            });
+        }
+    </script>
+</head>
 
 <body background="https://i.ytimg.com/vi/-4zjNK7e30Q/maxresdefault.jpg" style="background-size:100%; background-repeat: no-repeat">
 <nav class="navbar navbar-default" role="navigation">
@@ -53,6 +53,9 @@
     </div>
     <div>
         <ul class="nav navbar-nav">
+            <li>
+                <img id="icon" style="height: 25px; width: 25px; margin-top: 12px" src="">
+            </li>
             <li class="dropdown">
                 <a id="name" href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <script type="text/javascript">
@@ -72,16 +75,24 @@
         </ul>
     </div>
 </nav>
-<div style="background-color: #5bc0de; width: 200px; text-align: center">积分排行榜
-<ul id="scoreList">
-    <li></li>
-</ul>
+<div style=" background-color: #5bc0de; height: 200px; width: 200px; text-align: center; margin-left: 50px; ">积分排行榜
+    <ul id="scoreList">
+        <li></li>
+    </ul>
 </div>
-<div>当前在线情况</div>
+<div style="background-color: #5bc0de; height: 200px; width: 200px; text-align: center; margin-left: 50px;">当前在线情况
+    <ul id="onlineList">
+        <li></li>
+    </ul>
+</div>
 
 <script type="text/javascript">
+    
     var name = getQueryVariable("name");
     var pwd = getQueryVariable("pwd");
+    var iconPath = "upload/"+ name + pwd;
+    $("#icon").attr("src", iconPath);
+
     var getScore = {
         url: "score.php",
         data: {
@@ -99,7 +110,7 @@
             $.ajax(getScore);
         }
     };
-    // $.ajax(getScore);
+    $.ajax(getScore);
 </script>
 
 <script type="text/javascript">
@@ -109,15 +120,29 @@
         success: function (data) {
             var nameList = data.NameList;
             var scoreList = data.ScoreList;
-            for (var i =0; i < nameList.length; i++){
-                $("#scoreList").append("<li>" + nameList[i] + "</li>");
+            $("#scoreList").empty();
+            for (var i = 0; i < nameList.length; i++){
+                $("#scoreList").append("<li>" + nameList[i] + "   " + scoreList[i] + "</li>");
             }
         }
     };
-
-    window.setInterval(function () {$.ajax(getList)}, 5000);
+    var getOnline = {
+        url: "http://192.168.64.166:8080/online",
+        dataType: "json",
+        success: function (data){
+            var nameList = data.NameList;
+            var scoreList = data.ScoreList;
+            $("#onlineList").empty();
+            for (var i = 0; i < nameList.length; i++){
+                $("#onlineList").append("<li>" + nameList[i] + "</li>");
+            }
+        }
+    };
+    window.setInterval(function () {
+        $.ajax(getList);
+        $.ajax(getOnline);
+    }, 5000);
 </script>
-
 </body>
 
 </html>
